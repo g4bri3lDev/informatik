@@ -1,12 +1,14 @@
 package klima.klima_adv;
 
 
-@SuppressWarnings("WeakerAccess")
+import java.util.Scanner;
+
 public class Klima {
 
-    boolean onoff = false;
-    String tempDigit1 = " __ ", tempDigit2 = "|  |", tempDigit3 = "|__|", tempDigit4 = " __ ", tempDigit5 = "|  |", tempDigit6 = "|__|";
-    String stufe1 = "    ", stufe2 = "   |", stufe3 = "   |";
+    private Scanner scanner = new Scanner(System.in);
+    private boolean onoff = false;
+    private String tempDigit1 = " __ ", tempDigit2 = "|  |", tempDigit3 = "|__|", tempDigit4 = " __ ", tempDigit5 = "|  |", tempDigit6 = "|__|";
+    private String stufe1 = "    ", stufe2 = "   |", stufe3 = "   |";
 
 
     public static void main(String[] args) {
@@ -14,11 +16,11 @@ public class Klima {
 
     }
 
-    void switchPower() {
+    private void switchPower() {
         onoff = !onoff;
     }
 
-    void setTemp(int temp) {
+    private void setTemp(int temp) {
         if (temp <= 15) {
             tempDigit1 = "    ";
             tempDigit2 = "   |";
@@ -119,20 +121,11 @@ public class Klima {
                 tempDigit5 = "|__|";
                 tempDigit6 = "   |";
                 break;
-            default:
-                tempDigit1 = " __ ";
-                tempDigit2 = "|  |";
-                tempDigit3 = "|__|";
-
-                tempDigit4 = " __ ";
-                tempDigit5 = "|  |";
-                tempDigit6 = "|__|";
-                break;
         }
 
     }
 
-    void setStufe(int stufe) {
+    private void setStufe(int stufe) {
         if (stufe <= 1) {
             stufe1 = "    ";
             stufe2 = "   |";
@@ -153,25 +146,68 @@ public class Klima {
                 stufe2 = " __|";
                 stufe3 = " __|";
                 break;
-            default:
-                stufe1 = " __ ";
-                stufe2 = "|  |";
-                stufe3 = "|__|";
-                break;
 
         }
     }
 
-    void display() {
-        System.out.println("+------------------------------------------+--------------------------------------------+");
-        System.out.println("|               Klima:                     |                                            |");
-        System.out.println("+------------------------------------------+--------------------------------------------+");
-        System.out.println("|                                          |                                            |");
-        System.out.println("|             " + tempDigit1 + "  " + tempDigit4 + "                   |                       " + stufe1 + "                 |");
-        System.out.println("|             " + tempDigit2 + "  " + tempDigit5 + "                   |                       " + stufe2 + "                 |");
-        System.out.println("|             " + tempDigit3 + "  " + tempDigit6 + "                   |                       " + stufe3 + "                 |");
-        System.out.println("|                                          |                                            |");
-        System.out.println("+------------------------------------------+--------------------------------------------+");
+    private void display() {
+        System.out.print('\u000c');//Escape shit
+
+        String onoffString;
+        onoffString = onoff ? "EIN" : "AUS";
+        if (!onoff) {
+            System.out.println("+------------------------------------------+--------------------------------------------+");
+            System.out.println("|               Klima:                     |                       " + onoffString + "                  |");
+            System.out.println("+------------------------------------------+--------------------------------------------+");
+            System.out.println("|  Aktion: (p = einschalten, e = beenden)                                               |");
+            System.out.println("+------------------------------------------+--------------------------------------------+");
+            switch (scanner.next()) {
+                case "p":
+                    switchPower();
+                    display();
+                    break;
+                case "e":
+                    System.exit(0);
+                    break;
+                default:
+                    display();
+                    break;
+            }
+
+        } else {
+
+            System.out.println("+------------------------------------------+--------------------------------------------+");
+            System.out.println("|               Klima:                     |                       " + onoffString + "                  |");
+            System.out.println("+------------------------------------------+--------------------------------------------+");
+            System.out.println("|                                          |                                            |");
+            System.out.println("|             " + tempDigit1 + "  " + tempDigit4 + "                   |                       " + stufe1 + "                 |");
+            System.out.println("|             " + tempDigit2 + "  " + tempDigit5 + "                   |                       " + stufe2 + "                 |");
+            System.out.println("|             " + tempDigit3 + "  " + tempDigit6 + "                   |                       " + stufe3 + "                 |");
+            System.out.println("|                                          |                                            |");
+            System.out.println("+------------------------------------------+--------------------------------------------+");
+            System.out.println("|  Aktion: (p = ausschalten, t = Temperatur, s = Stufe                                  |");
+            System.out.println("+------------------------------------------+--------------------------------------------+");
+            switch (scanner.next()) {
+                case "p":
+                    switchPower();
+                    display();
+                    break;
+                case "t":
+                    System.out.println("neue Temperatur: ");
+                    setTemp(scanner.nextInt());
+                    display();
+                    break;
+                case "s":
+                    System.out.println("neue Stufe: ");
+                    setStufe(scanner.nextInt());
+                    display();
+                    break;
+                default:
+                    display();
+                    break;
+            }
+        }
+
     }
 
 }
