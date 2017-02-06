@@ -15,7 +15,7 @@ class CipherClient implements Runnable {
     private ObjectOutputStream clientOut;
     private String serverIP = "192.168.0.25";
     private Socket clientConnection;
-    private CipherMain cm = new CipherMain();
+
 
     public void run() {
         if (serverIP.equals("")) serverIP = new Scanner(System.in).next();
@@ -76,7 +76,7 @@ class CipherClient implements Runnable {
 
     public void sendMessage(String message) {
         try {
-            clientOut.writeObject("CLIENT - " + message);
+            clientOut.writeObject(CipherMain.username + " - " + message);
         } catch (IOException e) {
             e.printStackTrace();
         }

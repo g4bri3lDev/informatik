@@ -58,7 +58,8 @@ class CipherServer implements Runnable {
             try {
                 message = (String) serverIn.readObject();
                 System.out.println(message);
-                if (!message.equals("Now Connected")) ;
+                if (!message.equals("Now Connected"))
+                    System.out.println("DECODED - " + CipherMain.decode(message.substring(CipherMain.username.length() + 3)));
 
             } catch (ClassNotFoundException cnfE) {
                 cnfE.printStackTrace();

@@ -8,6 +8,7 @@ import java.util.Scanner;
 public class CipherMain {
 
     private static final char[] key = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '-'};
+    static String username = "G";
     private static CipherServer cipherServer = new CipherServer();
     private static CipherClient cipherClient = new CipherClient();
     private static Scanner in = new Scanner(System.in);
