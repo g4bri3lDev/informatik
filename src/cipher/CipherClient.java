@@ -13,7 +13,7 @@ import java.util.Scanner;
 class CipherClient implements Runnable {
     private ObjectInputStream clientIn;
     private ObjectOutputStream clientOut;
-    private String serverIP = "192.168.0.25";
+    private String serverIP = "10.0.61.4";
     private Socket clientConnection;
 
 

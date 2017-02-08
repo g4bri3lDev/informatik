@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class CipherMain {
 
     private static final char[] key = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '-'};
-    static String username = "G";
+    static String username = "Asbest";
     private static CipherServer cipherServer = new CipherServer();
     private static CipherClient cipherClient = new CipherClient();
     private static Scanner in = new Scanner(System.in);
@@ -21,6 +21,7 @@ public class CipherMain {
         Thread client = new Thread(cipherClient);
         client.start();
         System.out.println("\n");
+        //noinspection InfiniteLoopStatement
         while (true) {
             cipherClient.sendMessage(encode(in.next().toLowerCase()));
         }
@@ -28,7 +29,7 @@ public class CipherMain {
 
     }
 
-    public static String encode(String text) {
+    private static String encode(String text) {
         StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < text.length(); i++) {
@@ -43,7 +44,7 @@ public class CipherMain {
         return sb.toString();
     }
 
-    public static String decode(String text) {
+    static String decode(String text) {
         String[] parts = (text.split(","));
         StringBuilder sb = new StringBuilder();
         for (String s : parts) {
