@@ -12,6 +12,7 @@ public class CipherMain {
     private static CipherServer cipherServer = new CipherServer();
     private static CipherClient cipherClient = new CipherClient();
     private static Scanner in = new Scanner(System.in);
+    private static int factor = 2;
 
     public static void main(String[] args) throws IOException {
 
@@ -23,20 +24,22 @@ public class CipherMain {
         System.out.println("\n");
         //noinspection InfiniteLoopStatement
         while (true) {
-            cipherClient.sendMessage(encode(in.next().toLowerCase()));
+            cipherClient.sendMessage(encode(in.next().toLowerCase(), factor));
         }
 
 
     }
 
-    private static String encode(String text) {
+    private static String encode(String text, int factor) {
         StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < text.length(); i++) {
             if (text.charAt(i) == ' ') {
                 sb.append(",_,");
             } else {
-                sb.append(Arrays.binarySearch(key, text.charAt(i)));
+                int num = Arrays.binarySearch(key, text.charAt(i)) + factor;
+                num = num > key.length ? num - key.length : num;
+                sb.append(num);
                 if (!(i == text.length() - 1)) sb.append(",");
 
             }
@@ -44,11 +47,11 @@ public class CipherMain {
         return sb.toString();
     }
 
-    static String decode(String text) {
+    static String decode(String text, int factor) {
         String[] parts = (text.split(","));
         StringBuilder sb = new StringBuilder();
         for (String s : parts) {
-            sb.append(key[Integer.parseInt(s)]);
+            sb.append(key[Integer.parseInt(s) - factor]);
         }
         return sb.toString();
     }
