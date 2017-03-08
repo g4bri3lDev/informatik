@@ -6,10 +6,12 @@ import javafx.geometry.Point2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -25,13 +27,18 @@ import java.util.stream.IntStream;
  */
 public class Connect4Appp extends Application {
     private static final int TILESIZE = 80;
-    private static final int COLUMNS = 7;
+    private static final int COLUMNS = 10;
     private static final int ROWS = 6;
 
     private boolean redTurn = true;
     private Disc[][] grid = new Disc[COLUMNS][ROWS];
 
     private Pane discPane = new Pane();
+    private Text winText = new Text(((COLUMNS + 1) * TILESIZE) / 2, ((ROWS + 1) * TILESIZE / 2), "Winner");
+    private Rectangle winRectangle = new Rectangle((COLUMNS + 1) * TILESIZE, (ROWS + 1) * TILESIZE);
+    private StackPane winPane = new StackPane();
+
+
 
     public static void main(String[] args) {
         launch(args);
@@ -51,6 +58,9 @@ public class Connect4Appp extends Application {
         Shape gridShape = genGrid();
         root.getChildren().add(gridShape);
         root.getChildren().addAll(columnList());
+        winPane.getChildren().addAll(winRectangle, winText);
+        winPane.setTranslateY(-((ROWS + 1) * TILESIZE));
+        root.getChildren().add(winPane);
         return root;
     }
 
@@ -100,7 +110,7 @@ public class Connect4Appp extends Application {
         discPane.getChildren().add(disc);
         disc.setTranslateX(column * (TILESIZE + 5) + TILESIZE / 4);
         final int localRow = row;
-        TranslateTransition animation = new TranslateTransition(Duration.seconds(1), disc);
+        TranslateTransition animation = new TranslateTransition(Duration.seconds(0.1), disc);
         animation.setToY(row * (TILESIZE + 5) + TILESIZE / 4);
         animation.setOnFinished(e -> {
             if (gameEnd(column, localRow)) {
@@ -147,7 +157,12 @@ public class Connect4Appp extends Application {
 
     private void gameFinish() {
         System.out.println("Winner: " + (redTurn ? "RED" : "YELLOW"));
-        System.exit(0);
+        winRectangle.setFill(redTurn ? Color.RED : Color.YELLOW);
+        TranslateTransition finishAnimation = new TranslateTransition(Duration.seconds(0.2), winPane);
+        finishAnimation.setToY(0);
+        finishAnimation.play();
+
+
     }
 
     private Optional<Disc> getDisc(int col, int row) {
